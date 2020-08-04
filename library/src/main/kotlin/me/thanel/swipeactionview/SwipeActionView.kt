@@ -107,12 +107,12 @@ class SwipeActionView : FrameLayout {
     /**
      * The duration of ripple animation.
      */
-    private val rippleAnimationDuration = 400L
+    private val rippleAnimationDuration = 0L
 
     /**
      * The duration of swipe animation.
      */
-    private val swipeAnimationDuration = 250L
+    private val swipeAnimationDuration = 150L
 
     /**
      * Bounds for the ripple animations.
@@ -277,9 +277,9 @@ class SwipeActionView : FrameLayout {
     }
 
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
+            context,
+            attrs,
+            defStyleAttr
     ) {
         init(context, attrs)
     }
@@ -287,17 +287,17 @@ class SwipeActionView : FrameLayout {
     private fun init(context: Context, attrs: AttributeSet?) {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.SwipeActionView)
         val swipeLeftRippleColor =
-            typedArray.getColorStateList(R.styleable.SwipeActionView_sav_swipeLeftRippleColor)
+                typedArray.getColorStateList(R.styleable.SwipeActionView_sav_swipeLeftRippleColor)
         val swipeRightRippleColor =
-            typedArray.getColorStateList(R.styleable.SwipeActionView_sav_swipeRightRippleColor)
+                typedArray.getColorStateList(R.styleable.SwipeActionView_sav_swipeRightRippleColor)
         rippleTakesPadding =
-            typedArray.getBoolean(R.styleable.SwipeActionView_sav_rippleTakesPadding, false)
+                typedArray.getBoolean(R.styleable.SwipeActionView_sav_rippleTakesPadding, false)
 
         if (isInEditMode) {
             previewBackground =
-                typedArray.getInt(R.styleable.SwipeActionView_sav_tools_previewBackground, 0)
+                    typedArray.getInt(R.styleable.SwipeActionView_sav_tools_previewBackground, 0)
             previewRipple =
-                typedArray.getInt(R.styleable.SwipeActionView_sav_tools_previewRipple, 0)
+                    typedArray.getInt(R.styleable.SwipeActionView_sav_tools_previewRipple, 0)
         }
 
         typedArray.recycle()
@@ -311,7 +311,7 @@ class SwipeActionView : FrameLayout {
     }
 
     override fun verifyDrawable(who: Drawable) =
-        who == leftSwipeRipple || who == rightSwipeRipple || super.verifyDrawable(who)
+            who == leftSwipeRipple || who == rightSwipeRipple || super.verifyDrawable(who)
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -396,8 +396,8 @@ class SwipeActionView : FrameLayout {
     private fun requireOppositeGravity(view: View?) {
         if (view != null) {
             throw IllegalStateException(
-                "Background views must have opposite horizontal gravity." +
-                        " One aligned to start and one to end."
+                    "Background views must have opposite horizontal gravity." +
+                            " One aligned to start and one to end."
             )
         }
     }
@@ -458,14 +458,14 @@ class SwipeActionView : FrameLayout {
     @Suppress("unused")
     fun setDirectionEnabled(direction: SwipeDirection, enabled: Boolean) {
         val view = getViewForDirection(direction)
-            ?: throw IllegalArgumentException("View for the specified direction doesn't exist.")
+                ?: throw IllegalArgumentException("View for the specified direction doesn't exist.")
         view.visibility = if (enabled) View.VISIBLE else View.GONE
     }
 
     @JvmOverloads
     @Deprecated(
-        message = "use animateToOriginalPosition instead",
-        replaceWith = ReplaceWith("animateToOriginalPosition(startDelay)")
+            message = "use animateToOriginalPosition instead",
+            replaceWith = ReplaceWith("animateToOriginalPosition(startDelay)")
     )
     fun moveToOriginalPosition(startDelay: Long = 0) {
         animateToOriginalPosition(startDelay)
@@ -494,9 +494,9 @@ class SwipeActionView : FrameLayout {
      */
     @JvmOverloads
     fun animateInDirection(
-        swipeDirection: SwipeDirection,
-        animateBack: Boolean,
-        delayBeforeAnimatingBack: Long = 200
+            swipeDirection: SwipeDirection,
+            animateBack: Boolean,
+            delayBeforeAnimatingBack: Long = 0
     ) {
         val distance = if (swipeDirection == SwipeDirection.Right) {
             maxRightSwipeDistance
@@ -563,7 +563,7 @@ class SwipeActionView : FrameLayout {
 
             MotionEvent.ACTION_UP -> {
                 if (isClickable && isTouchValid && !dragging && !inLongPress
-                    && !hasMovedVertically(e)
+                        && !hasMovedVertically(e)
                 ) {
                     startPress(e.x, e.y)
                     performClick()
@@ -852,7 +852,7 @@ class SwipeActionView : FrameLayout {
             }
 
             if (shouldFinish != false) {
-                animateToOriginalPosition(200)
+                animateToOriginalPosition(0)
             }
         }
     }
@@ -884,10 +884,10 @@ class SwipeActionView : FrameLayout {
      * @param onEnd The callback to be executed once animation finishes.
      */
     private fun animateContainer(
-        targetTranslationX: Float,
-        duration: Long,
-        startDelay: Long = 0,
-        onEnd: () -> Unit
+            targetTranslationX: Float,
+            duration: Long,
+            startDelay: Long = 0,
+            onEnd: () -> Unit
     ) {
         with(animator) {
             setStartDelay(startDelay)
@@ -964,7 +964,7 @@ class SwipeActionView : FrameLayout {
         private const val TAP = 2
 
         private class PressTimeoutHandler(private val swipeActionView: SwipeActionView) :
-            Handler() {
+                Handler() {
             var x = 0f
             var y = 0f
 
